@@ -46,9 +46,17 @@ def get_employee_todo_progress(employee_id):
     csv_filename = f"{employee_id}.csv"
     with open(csv_filename, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+        writer.writerow(["USER_ID",
+                         "USERNAME",
+                         "TASK_COMPLETED_STATUS",
+                         "TASK_TITLE"])
         for todo in todos:
-            writer.writerow([employee_id, user_name, todo['completed'], todo['title']])
+            writer.writerow([
+                employee_id, 
+                user_name, 
+                todo['completed'], 
+                todo['title']
+            ])
 
 
 if __name__ == "__main__":
