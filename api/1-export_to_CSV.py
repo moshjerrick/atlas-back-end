@@ -42,29 +42,17 @@ def get_employee_todo_progress(employee_id):
     for todo in completed_todos:
         print(f"\t {todo['title']}")
 
-# Export to CSV
     csv_filename = f"{employee_id}.csv"
     with open(csv_filename, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow()
         for todo in todos:
-            writer.writerow([
-                employee_id,
-                user_name,
-                todo['completed'],
-                todo['title']
-            ])
+            writer.writerow([employee_id,
+                             user_name,
+                             todo['completed'],
+                             todo['title']])
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python script.py EMPLOYEE_ID")
         sys.exit(1)
-
-    try:
-        employee_id = int(sys.argv[1])
-    except ValueError:
-        print("EMPLOYEE_ID must be an integer.")
-        sys.exit(1)
-
-    get_employee_todo_progress(employee_id)
