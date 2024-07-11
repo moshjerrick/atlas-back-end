@@ -8,7 +8,6 @@ import requests
 import sys
 
 def get_employee_todo_progress(employee_id):
-    
 
     # Get user information
     user_response = requests.get(
