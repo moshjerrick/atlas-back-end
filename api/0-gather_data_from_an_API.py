@@ -9,6 +9,7 @@ import sys
 
 def get_employee_todo_progress(employee_id):
 
+
     # Get user information
     user_response = requests.get(
         f'https://jsonplaceholder.typicode.com/users/{employee_id}'
