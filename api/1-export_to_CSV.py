@@ -52,9 +52,9 @@ def get_employee_todo_progress(employee_id):
                          "TASK_TITLE"])
         for todo in todos:
             writer.writerow([
-                employee_id, 
-                user_name, 
-                todo['completed'], 
+                employee_id,
+                user_name,
+                todo['completed'],
                 todo['title']
             ])
 
