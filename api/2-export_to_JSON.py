@@ -4,29 +4,28 @@ import json
 from requests import get
 from sys import argv
 
+response = get('https://jsonplaceholder.typicode.com/todos/')
+data = response.json()
 
-if __name__ == "__main__":
-    response = get('https://jsonplaceholder.typicode.com/todos/')
-    data = response.json()
+row = []
+response2 = get('https://jsonplaceholder.typicode.com/users')
+data2 = response2.json()
 
-    row = []
-    response2 = get('https://jsonplaceholder.typicode.com/users')
-    data2 = response2.json()
+for i in data2:
+    if i['id'] == int(argv[1]):
+        employee = i['username']
 
-    for i in data2:
-        if i['id'] == int(argv[1]):
-            employee = i['username']
+    # Define filtered_tasks as an empty list
+    filtered_tasks = []
+if employee is not None:    
+    # Create a dictionary to hold the employee's tasks
+    employee_tasks = {
+        "employee_id": int(argv[1]),
+        "employee_username": employee,
+        "tasks": filtered_tasks
+    }
 
-    with open(argv[1] + '.csv', 'w', newline='') as file:
-        writ = csv.writer(file, quoting=csv.QUOTE_ALL)
-
-        for i in data:
-
-            row = []
-            if i['userId'] == int(argv[1]):
-                row.append(i['userId'])
-                row.append(employee)
-                row.append(i['completed'])
-                row.append(i['title'])
-
-                writ.writerow(row)
+    # Export the data to a JSON file
+    json_filename = f"{argv[1]}.json"
+    with open(json_filename, 'w') as file:
+        json.dump(employee_tasks, file, indent=4)
