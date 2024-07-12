@@ -34,7 +34,12 @@ def get_employee_todo_progress_and_export(employee_id):
 
     # Prepare data for CSV export without headers
     data_for_csv = [
-        [str(employee_id), user_name, str(todo['completed']), todo['title']] for todo in todos
+        (
+            str(employee_id),
+            user_name,
+            str(todo['completed']),
+            todo['title']
+        ) for todo in todos
                     ]
 
     # Export data to CSV without headers
