@@ -43,11 +43,11 @@ def get_employee_todo_progress_and_export(employee_id):
                     ]
 
     # Export data to CSV without headers
-    csv_filename = f"{employee_id}.csv"
-    with open(csv_filename, mode='w', newline='') as file:
+    USER_ID = f"{employee_id}.csv"
+    with open(USER_ID, mode='w', newline='') as file:
         writer = csv.writer(file)
-        for row in data_for_csv[1:]:
-            writer.writerow(row)
+        writer.writerows(data_for_csv)  # Writing data rows
+
 
 
 if __name__ == "__main__":
