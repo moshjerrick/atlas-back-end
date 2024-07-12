@@ -30,17 +30,17 @@ def get_employee_todo_progress_and_export(employee_id):
     
     todos = todos_response.json()
     
-    # Prepare data for CSV export
+    # Prepare data for CSV export without headers
     data_for_csv = [
-        [employee_id, user_name, todo['completed'], todo['title']] for todo in todos
+        [str(employee_id), user_name, str(todo['completed']), todo['title']] for todo in todos
     ]
     
-    # Export data to CSV
+    # Export data to CSV without headers
     csv_filename = f"{employee_id}.csv"
     with open(csv_filename, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerows(data_for_csv)  # Writing data rows
-
+        for row in data_for_csv[1:]:
+            writer.writerow(row)
 
 
 if __name__ == "__main__":
@@ -48,3 +48,11 @@ if __name__ == "__main__":
         print("Usage: python script.py EMPLOYEE_ID")
         sys.exit(1)
     
+
+    try:
+        employee_id = int(sys.argv[1])
+    except ValueError:
+        print("EMPLOYEE_ID must be an integer.")
+        sys.exit(1)
+
+    get_employee_todo_progress_and_export(employee_id)
