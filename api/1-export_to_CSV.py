@@ -38,7 +38,7 @@ def get_employee_todo_progress_and_export(employee_id):
         user_name,
         str(todo['completed']),
         todo['title']] for todo in todos
-    ]
+                    ]
 
     # Export data to CSV without headers
     csv_filename = f"{employee_id}.csv"
