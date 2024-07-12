@@ -11,7 +11,7 @@ import sys
 
 
 def get_employee_todo_progress_and_export(employee_id):
-    # Get user information
+    """ Get user information"""
     user_response = requests.get(
         f'https://jsonplaceholder.typicode.com/users/{employee_id}'
     )
@@ -47,8 +47,6 @@ def get_employee_todo_progress_and_export(employee_id):
     with open(USER_ID, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(data_for_csv)  # Writing data rows
-
-
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
