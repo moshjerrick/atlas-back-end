@@ -1,31 +1,32 @@
 #!/usr/bin/python3
-""" Export data in the json format """
+"""Creates a JSON dump from fake user data using the JSON Placeholder API."""
 import json
-from requests import get
+import requests
 from sys import argv
 
-response = get('https://jsonplaceholder.typicode.com/todos/')
-data = response.json()
 
-row = []
-response2 = get('https://jsonplaceholder.typicode.com/users')
-data2 = response2.json()
+if __name__ == "__main__":
+    user_id = argv[1]
+    api = 'https://jsonplaceholder.typicode.com/'
 
-for i in data2:
-    if i['id'] == int(argv[1]):
-        employee = i['username']
+    endpoints = [
+        'users/{}'.format(user_id),
+        'todos?userId={}'.format(user_id)
+    ]
 
-    # Define filtered_tasks as an empty list
-    filtered_tasks = []
-if employee is not None:    
-    # Create a dictionary to hold the employee's tasks
-    employee_tasks = {
-        "employee_id": int(argv[1]),
-        "employee_username": employee,
-        "tasks": filtered_tasks
-    }
+    user, tasks = \
+        [requests.get(api + endpoint).json() for endpoint in endpoints]
 
-    # Export the data to a JSON file
-    json_filename = f"{argv[1]}.json"
-    with open(json_filename, 'w') as file:
-        json.dump(employee_tasks, file, indent=4)
+    username = user.get("username")
+
+    data = {user_id:
+            [{
+                "username": username,
+                "completed": task.get("completed"),
+                "task": task.get("title")
+             } for task in tasks]
+            }
+
+    filename = "{}.json".format(user_id)
+    with open(filename, "w") as file:
+        json.dump(data, file)
