@@ -2,31 +2,28 @@
 """Creates a JSON dump from fake user data using the JSON Placeholder API."""
 import json
 import requests
-from sys import argv
 
 
 if __name__ == "__main__":
-    user_id = argv[1]
     api = 'https://jsonplaceholder.typicode.com/'
 
-    endpoints = [
-        'users/{}'.format(user_id),
-        'todos?userId={}'.format(user_id)
-    ]
+    users = requests.get(api + 'users').json()
 
-    user, tasks = \
-        [requests.get(api + endpoint).json() for endpoint in endpoints]
+    data = dict()
 
-    username = user.get("username")
+    for user in users:
+        user_id = user.get("id")
+        tasks = requests.get(api + 'todos?userId={}'.format(user_id))\
+                        .json()
 
-    data = {user_id:
-            [{
-                "username": username,
-                "completed": task.get("completed"),
-                "task": task.get("title")
-             } for task in tasks]
-            }
+        task_list = [{
+                        "username": user.get("username"),
+                        "completed": task.get("completed"),
+                        "task": task.get("title")
+                    } for task in tasks]
 
-    filename = "{}.json".format(user_id)
+        data[user_id] = task_list
+
+    filename = "todo_all_employees.json"
     with open(filename, "w") as file:
-        json.dump(data, file)
+            json.dump(data, file)
