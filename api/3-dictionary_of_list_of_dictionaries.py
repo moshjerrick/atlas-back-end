@@ -26,4 +26,4 @@ if __name__ == "__main__":
 
     filename = "todo_all_employees.json"
     with open(filename, "w") as file:
-            json.dump(data, file)
+        json.dump(data, file)
